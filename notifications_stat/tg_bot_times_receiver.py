@@ -1,17 +1,19 @@
 import re
 
 from telethon import TelegramClient
+from telethon.sessions import StringSession
 from telethon.tl.types import PeerUser
 
-from subscriber.configs import TG_API_ID, TG_API_HASH
+from hsc_gov_subscriber.utils.config import Config
 
-client = TelegramClient(session="annon", api_id=TG_API_ID, api_hash=TG_API_HASH)
+client = TelegramClient(session="annon", api_id=Config.API_ID.value, api_hash=Config.API_HASH.value)
 
 times = [
 ]
 
 
 async def main():
+    dialogs = await client.get_dialogs()
     bot = await client.get_entity(PeerUser(6974528785))
 
     pattern = r'Знайдено талони*?'

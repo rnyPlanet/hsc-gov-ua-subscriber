@@ -57,7 +57,7 @@
 <summary>3. Файли cookies</summary>
 
 Після вдалої авторизації на [https://eq.hsc.gov.ua/](https://eq.hsc.gov.ua/) потрібно додати кукі
-в [cookies.json](/subscriber/cookies.json) для авторизованих запитів на сайт.
+в [cookies.json](/hsc_gov_subscriber/cookies.json) для авторизованих запитів на сайт.
 
 **Кукі злітають автоматом через 30хв якщо не оновлювати сторінку сайту.** Щоб цього уникнути
 рекомендую [встановити розширення бля браузеру](https://chromewebstore.google.com/detail/easy-auto-refresh/aabcgdmkeabbnleenpncegpcngjpnjkc?hl=en-US&utm_source=ext_sidebar)
@@ -71,7 +71,7 @@
 
 ## Запуск
 
-Після [налаштування](#налаштування) можна запустити [bot.py](/subscriber/bot.py).
+Після [налаштування](#налаштування) можна запустити [bot.py](/hsc_gov_subscriber/bot.py).
 
 В консолі запропонує ввести телефон, код який отримали в тг після підтвердження, пароль (якщо він є на аккаунті).
 (Після кожної операції введення потрібно натискати Enter)

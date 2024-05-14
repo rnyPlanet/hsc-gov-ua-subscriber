@@ -1,4 +1,4 @@
-Значення потрібно редагувати в [configs.py](/subscriber/configs.py).
+Значення потрібно редагувати в [configs.py](/hsc_gov_subscriber/configs.py).
 
 `TG_API_ID` - `App api_id` з п.1.
 

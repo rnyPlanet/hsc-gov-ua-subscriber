@@ -4,13 +4,13 @@ from datetime import datetime
 import colorlog
 from bs4 import BeautifulSoup
 
-from subscriber.client import Client
-from subscriber.configs import QUESTION_ID, OFFICE_ID, EMAIL, START_DATE, END_DATE
-from subscriber.services.chdate_parser import ChdateParser
-from subscriber.services.finisher import Finisher
-from subscriber.services.freetime_receiver import FreeTimeReceiver
-from subscriber.services.reservecherga_redirect_receiver import ReservechergaRedirectReceiver
-from subscriber.services.x_csrf_token_receiver import XCsrfTokenReceiver
+from hsc_gov_subscriber.services.chdate_parser import ChdateParser
+from hsc_gov_subscriber.services.finisher import Finisher
+from hsc_gov_subscriber.services.freetime_receiver import FreeTimeReceiver
+from hsc_gov_subscriber.services.reservecherga_redirect_receiver import ReservechergaRedirectReceiver
+from hsc_gov_subscriber.services.x_csrf_token_receiver import XCsrfTokenReceiver
+from hsc_gov_subscriber.utils.client import Client
+from hsc_gov_subscriber.utils.config import Config
 
 logger = logging.getLogger('custom_logger')
 logger.setLevel(logging.DEBUG)
@@ -37,15 +37,16 @@ class HscGovSubscriber:
         logger.info(f"Parsed chdate: {chdate}")
         self.check_date(chdate)
 
-        x_csrf_token = await XCsrfTokenReceiver(chdate, QUESTION_ID, client).get_x_csrf_token()
+        x_csrf_token = await XCsrfTokenReceiver(chdate, Config.QUESTION_ID.value, client).get_x_csrf_token()
         logger.info(f"x_csrf token: {x_csrf_token}")
 
-        first_freetime_id, first_freetime_chtime = await FreeTimeReceiver(chdate, QUESTION_ID, OFFICE_ID, x_csrf_token,
+        first_freetime_id, first_freetime_chtime = await FreeTimeReceiver(chdate, Config.QUESTION_ID.value, Config.OFFICE_ID.value,
+                                                                          x_csrf_token,
                                                                           client).get_first_freetime()
         logger.info(f"freetime first: {first_freetime_id} {first_freetime_chtime}")
 
-        reservecherga_redirect_receiver = ReservechergaRedirectReceiver(chdate, QUESTION_ID, x_csrf_token,
-                                                                        first_freetime_id, EMAIL, client)
+        reservecherga_redirect_receiver = ReservechergaRedirectReceiver(chdate, Config.QUESTION_ID.value, x_csrf_token,
+                                                                        first_freetime_id, Config.EMAIL.value, client)
         reservecherga_redirect_url = await reservecherga_redirect_receiver.get_reservecherga_redirect()
         logger.info(f"step3 reservecherga redirect url: {reservecherga_redirect_url}")
 
@@ -60,10 +61,10 @@ class HscGovSubscriber:
         self.validate(response_body)
 
     def check_date(self, date):
-        if self.is_date_between(date, START_DATE, END_DATE):
-            logger.info(f"{date} is between {START_DATE} and {END_DATE}")
+        if self.is_date_between(date, Config.START_DATE.value, Config.END_DATE.value):
+            logger.info(f"{date} is between {Config.START_DATE.value} and {Config.END_DATE.value}")
         else:
-            raise Exception(f"{date} is not between {START_DATE} and {END_DATE}")
+            raise Exception(f"{date} is not between {Config.START_DATE.value} and {Config.END_DATE.value}")
 
     def is_date_between(self, date_to_check, start_date, end_date):
         date_to_check = datetime.strptime(date_to_check, "%Y-%m-%d")

@@ -1,9 +1,10 @@
 from telethon import TelegramClient, events
+from telethon.sessions import StringSession
 
-from subscriber.configs import TG_API_ID, TG_API_HASH
-from subscriber.services.hsc_gov_subscriber import HscGovSubscriber
+from hsc_gov_subscriber.services.hsc_gov_subscriber import HscGovSubscriber
+from hsc_gov_subscriber.utils.config import Config
 
-client = TelegramClient(session="annon", api_id=TG_API_ID, api_hash=TG_API_HASH)
+client = TelegramClient(session=StringSession(), api_id=Config.API_ID, api_hash=Config.API_HASH)
 
 
 @client.on(events.NewMessage(chats=6974528785, pattern="\d+\.\d+\.\d+ - \d+ 🎫 талон"))

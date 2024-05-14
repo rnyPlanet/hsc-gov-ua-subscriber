@@ -1,4 +1,4 @@
-from subscriber.client import Client
+from hsc_gov_subscriber.utils.client import Client
 
 
 class Finisher:

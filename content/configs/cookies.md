@@ -1,4 +1,4 @@
-Значення потрібно редагувати в [cookies.json](/subscriber/cookies.json).
+Значення потрібно редагувати в [cookies.json](/hsc_gov_subscriber/cookies.json).
 
 Гайд [де брати `cookies.json`](/content/configs/cookies.md).
 

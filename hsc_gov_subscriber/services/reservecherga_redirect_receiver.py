@@ -2,7 +2,7 @@ import json
 
 from bs4 import BeautifulSoup
 
-from subscriber.client import Client
+from hsc_gov_subscriber.utils.client import Client
 
 
 class ReservechergaRedirectReceiver:
