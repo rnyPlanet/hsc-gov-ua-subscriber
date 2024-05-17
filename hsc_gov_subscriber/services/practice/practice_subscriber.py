@@ -4,11 +4,12 @@ from datetime import datetime
 import colorlog
 from bs4 import BeautifulSoup
 
-from hsc_gov_subscriber.services.chdate_parser import ChdateParser
-from hsc_gov_subscriber.services.finisher import Finisher
-from hsc_gov_subscriber.services.freetime_receiver import FreeTimeReceiver
-from hsc_gov_subscriber.services.reservecherga_redirect_receiver import ReservechergaRedirectReceiver
-from hsc_gov_subscriber.services.x_csrf_token_receiver import XCsrfTokenReceiver
+from hsc_gov_subscriber.services.practice.chdate_parser import ChdateParser
+from hsc_gov_subscriber.services.practice.finisher import Finisher
+from hsc_gov_subscriber.services.practice.freetime_receiver import FreeTimeReceiver
+from hsc_gov_subscriber.services.practice.reservecherga_redirect_receiver import ReservechergaRedirectReceiver
+from hsc_gov_subscriber.services.practice.x_csrf_token_receiver import XCsrfTokenReceiver
+from hsc_gov_subscriber.services.subscriber import HscGovSubscriberAbs
 from hsc_gov_subscriber.utils.client import Client
 from hsc_gov_subscriber.utils.config import Config
 
@@ -29,7 +30,7 @@ stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 
 
-class HscGovSubscriber:
+class PracticeSubscriber(HscGovSubscriberAbs):
     async def subscribe(self, text):
         client: Client = Client("cookies.json")
 
