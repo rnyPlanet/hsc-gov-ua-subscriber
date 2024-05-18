@@ -4,9 +4,9 @@ from datetime import datetime
 text = """🎫 Знайдено талони 🏛️ ТСЦ МВС № 4841 м. Миколаїв, пров. Транспортний, 1а/1
 💼 На послугу: 🚗 Практичний іспит (транспортний засіб навчального закладу)
 ✅ Талони наявні на наступні дати :
-📆 2.5.2024 - 1 🎫 талон
-📆 24.4.2024 - 1 🎫 талон 
-📆 30.9.2024 - 1 🎫 талон 
+📆 21.5.2024 - 1 🎫 талон 
+📆 25.5.2024 - 2 🎫 талони 
+📆 5.6.2024 - 1 🎫 талон
 """
 # matches = re.findall(r'📆 \d+\.\d+\.\d+ - \d+ 🎫 талон', text)
 
@@ -28,9 +28,7 @@ pattern_dates = r'📆 \d+\.\d+\.\d+ - \d+ 🎫 талон'
 dates = []
 service_match = re.search(pattern_service, text)
 if service_match:
-    service_line = service_match.group()
     matches_dates = re.findall(pattern_dates, text)
-    print("Service Line:", service_line)
     for match in matches_dates:
         date_str = re.search(r'\d+\.\d+\.\d+', match).group()
         date_obj = datetime.strptime(date_str, '%d.%m.%Y')

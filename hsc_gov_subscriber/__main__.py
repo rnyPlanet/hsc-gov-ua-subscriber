@@ -2,8 +2,8 @@ from telethon import TelegramClient
 from telethon import events
 from telethon.sessions import StringSession
 
-from hsc_gov_subscriber.services.practice.practice_subscriber import PracticeSubscriber
-from hsc_gov_subscriber.services.re_registration.re_registration_subscriber import ReRegistrationSubscriber
+from hsc_gov_subscriber.services.practice_subscriber import PracticeSubscriber
+from hsc_gov_subscriber.services.re_registration_subscriber import ReRegistrationSubscriber
 from hsc_gov_subscriber.utils.config import ConfigValidation, Config
 
 

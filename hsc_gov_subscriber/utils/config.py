@@ -7,6 +7,7 @@ from pathlib import Path
 PROJECT_PATH = Path(__file__).parent.parent.resolve()
 
 config_file = os.path.join(PROJECT_PATH, "config.ini")
+cookies_file = os.path.join(PROJECT_PATH, "cookies.json")
 
 
 class ConfigUnit:

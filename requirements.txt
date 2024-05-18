@@ -5,3 +5,4 @@ beautifulsoup4>=4.12.3
 aiohttp>=3.9.5
 matplotlib>=3.7.5
 pandas>=2.0.3
+lxml>=5.2.2

@@ -1,20 +1,17 @@
 from bs4 import BeautifulSoup
 
 from hsc_gov_subscriber.utils.client import Client
+from hsc_gov_subscriber.utils.log import logger
 
 
 class XCsrfTokenReceiver:
-    def __init__(self, chdate, question_id, client: Client):
-        self.__chdate = chdate
-        self.__question_id = question_id
-        self.__client: Client = client
-
-    async def get_x_csrf_token(self):
+    @staticmethod
+    async def get_x_csrf_token(chdate, question_id, subid, client: Client):
         headers = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
             'Accept-Language': 'en,uk;q=0.9,en-US;q=0.8,ru;q=0.7',
             'Connection': 'keep-alive',
-            'Referer': f'https://eq.hsc.gov.ua/site/step1?value={self.__question_id}&subid=13',
+            'Referer': f'https://eq.hsc.gov.ua/site/step1?value={question_id}&subid={subid}',
             'Sec-Fetch-Dest': 'document',
             'Sec-Fetch-Mode': 'navigate',
             'Sec-Fetch-Site': 'same-origin',
@@ -27,20 +24,23 @@ class XCsrfTokenReceiver:
         }
 
         params = {
-            'chdate': self.__chdate,
-            'question_id': self.__question_id,
+            'chdate': chdate,
+            'question_id': question_id,
             'id_es': '',
         }
 
-        response = await self.__client.get("https://eq.hsc.gov.ua/site/step2", params=params, headers=headers)
+        response = await client.get("https://eq.hsc.gov.ua/site/step2", params=params, headers=headers)
+        logger.debug(response)
 
         soup = BeautifulSoup(response["body"], 'lxml')
-        self.__validate_html(soup)
+        XCsrfTokenReceiver.validate_html(soup)
 
         csrf_token = soup.select_one('meta[name="csrf-token"]')['content']
+        logger.debug(f"x_csrf token: {csrf_token}")
 
         return csrf_token
 
-    def __validate_html(self, soup):
+    @staticmethod
+    def validate_html(soup):
         if len(soup(text=lambda t: "Увійти за допомогою - ID.GOV.UA" in t.text)) != 0:
-            raise Exception("need update cookies")
+            raise Exception("Потрібно оновити файли cookie.")

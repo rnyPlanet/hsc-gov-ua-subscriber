@@ -1,14 +1,9 @@
-from hsc_gov_subscriber.utils.client import Client
+from hsc_gov_subscriber.utils.log import logger
 
 
 class Finisher:
-    def __init__(self, referer, csrf_token, value, client: Client):
-        self.__referer = referer
-        self.__csrf_token = csrf_token
-        self.__value = value
-        self.__client: Client = client
-
-    async def finish(self):
+    @staticmethod
+    async def finish(redirect_url, csrf_token, value, client):
         headers = {
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
             'Accept-Language': 'en,uk;q=0.9,en-US;q=0.8,ru;q=0.7',
@@ -16,7 +11,7 @@ class Finisher:
             'Connection': 'keep-alive',
             'Content-Type': 'application/x-www-form-urlencoded',
             'Origin': 'https://eq.hsc.gov.ua',
-            'Referer': self.__referer,
+            'Referer': redirect_url,
             'Sec-Fetch-Dest': 'document',
             'Sec-Fetch-Mode': 'navigate',
             'Sec-Fetch-Site': 'same-origin',
@@ -29,8 +24,11 @@ class Finisher:
         }
 
         data = {
-            '_csrf': self.__csrf_token,
-            'value': self.__value,
+            '_csrf': csrf_token,
+            'value': value,
         }
 
-        return await self.__client.post("https://eq.hsc.gov.ua/site/finish", headers=headers, data=data)
+        response = await client.post("https://eq.hsc.gov.ua/site/finish", headers=headers, data=data)
+        logger.debug(response)
+
+        return response
