@@ -5,6 +5,7 @@ from telethon.sessions import StringSession
 from hsc_gov_subscriber.services.practice_subscriber import PracticeSubscriber
 from hsc_gov_subscriber.services.re_registration_subscriber import ReRegistrationSubscriber
 from hsc_gov_subscriber.utils.config import ConfigValidation, Config
+from hsc_gov_subscriber.utils.log import logger
 
 
 @events.register(events.NewMessage(
@@ -34,5 +35,7 @@ if __name__ == '__main__':
     ConfigValidation.validate()
 
     with TelegramClient(session=StringSession(), api_id=Config.API_ID.value, api_hash=Config.API_HASH.value) as client:
-        client.add_event_handler(services[int(Config.QUESTION_ID.value)])
+        question_id = int(Config.QUESTION_ID.value)
+        client.add_event_handler(services[question_id])
+        logger.info("Бот запустився. Чекаємо нових повідомлень...")
         client.run_until_disconnected()
