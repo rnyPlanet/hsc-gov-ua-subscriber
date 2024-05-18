@@ -6,23 +6,31 @@ from hsc_gov_subscriber.services.practice_subscriber import PracticeSubscriber
 from hsc_gov_subscriber.services.re_registration_subscriber import ReRegistrationSubscriber
 from hsc_gov_subscriber.utils.config import ConfigValidation, Config
 
-
-@events.register(events.NewMessage(chats=6974528785,
-                                   pattern="💼 На послугу: 🚗 Практичний іспит \(транспортний засіб навчального закладу\)"))
+@events.register(events.NewMessage(
+    chats=6974528785,
+    func=lambda ev: "💼 На послугу: 🚗 Практичний іспит (транспортний засіб навчального закладу)" in ev.message.message)
+)
 async def practice_new_talon_handler(event):
     await PracticeSubscriber().subscribe(event.message.text)
 
 
-@events.register(events.NewMessage(chats=6974528785,
-                                   pattern="💼 На послугу: Реєстраційні дії з транспортними засобами"))
+@events.register(events.NewMessage(
+    chats=6974528785,
+    incoming=True,
+    func=lambda ev: "💼 На послугу: Реєстраційні дії з транспортними засобами" in ev.message.message)
+)
 async def re_registration_new_talon_handler(event):
     await ReRegistrationSubscriber().subscribe(event.message.text)
 
+
+services = {
+    56: practice_new_talon_handler,
+    49: re_registration_new_talon_handler
+}
 
 if __name__ == '__main__':
     ConfigValidation.validate()
 
     with TelegramClient(session=StringSession(), api_id=Config.API_ID.value, api_hash=Config.API_HASH.value) as client:
-        client.add_event_handler(practice_new_talon_handler)
-        client.add_event_handler(re_registration_new_talon_handler)
+        client.add_event_handler(services[int(Config.QUESTION_ID.value)])
         client.run_until_disconnected()
