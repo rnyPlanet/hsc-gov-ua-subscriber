@@ -123,7 +123,7 @@ class ConfigValidation:
     @staticmethod
     def _raise_config_exception(unit, message=None):
         raise ConfigException(
-            f"Invalid value '{unit.value}' under section '{unit.section}.{unit.name}' in the config file.\n" + message)
+            f"Недійсне значення '{unit.value}' у розділі '{unit.section}.{unit.name}' у файлі конфігурації.\n" + message)
 
     @staticmethod
     def _validate_date_range(unit_start_date, unit_end_date):
@@ -131,15 +131,14 @@ class ConfigValidation:
         end_date = datetime.strptime(unit_end_date.value, "%Y-%m-%d")
         if not start_date <= end_date:
             ConfigValidation._raise_config_exception(unit_start_date,
-                                                     f"Check {unit_start_date.section}.{unit_start_date.name}, {unit_end_date.section}.{unit_end_date.name}. "
-                                                     f"{unit_start_date.section}.{unit_start_date.name} must be less then {unit_end_date.section}.{unit_end_date.name}")
+                                                     f"{unit_start_date.section}.{unit_start_date.name} має бути меншим за {unit_end_date.section}.{unit_end_date.name}")
 
     @staticmethod
     def _check_not_none(unit: ConfigUnit):
         value = unit.value
         if (value is None
                 or not value):
-            ConfigValidation._raise_config_exception(unit, "Must be filled.")
+            ConfigValidation._raise_config_exception(unit, "Необхідно заповнити.")
 
     @classmethod
     def validate(cls):
