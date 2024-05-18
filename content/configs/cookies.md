@@ -1,6 +1,6 @@
 Значення потрібно редагувати в [cookies.json](/hsc_gov_subscriber/cookies.json).
 
-Гайд [де брати `cookies.json`](/content/configs/cookies.md).
+Гайд [де брати `cookies`](/content/configs/browser_requests/cookies.md).
 
 **Кукі злітають автоматом через 30хв якщо не оновлювати сторінку сайту.** Щоб цього уникнути
 рекомендую [встановити розширення бля браузеру](https://chromewebstore.google.com/detail/easy-auto-refresh/aabcgdmkeabbnleenpncegpcngjpnjkc?hl=en-US&utm_source=ext_sidebar)
