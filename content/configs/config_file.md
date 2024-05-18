@@ -20,6 +20,10 @@
 
 Гайд [де брати `OFFICE_ID` та `QUESTION_ID`](/content/configs/browser_requests/pract_ispt_id.md).
 
-## Приклад конфіг файлу
+### Приклад конфіг файлу для `практичний іспит (транспортний засіб навчального закладу) на категорії B; BE;`
 
-![alt text](/content/configs/photo_2024-05-14_21-47-31.jpg)
+![alt text](/content/configs/photo_2024-05-18_18-08-43.jpg)
+
+### Приклад конфіг файлу для `Перереєстрація транспортного засобу`
+
+![alt text](/content/configs/photo_2024-05-18_18-10-41.jpg)
