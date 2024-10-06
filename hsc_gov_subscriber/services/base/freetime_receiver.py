@@ -39,7 +39,13 @@ class FreeTimeReceiver:
         freetime_json = json.loads(response["body"])
         logger.debug(f"freetime_json {freetime_json}")
 
-        freetime_first = freetime_json['rows'][0]
+        try:
+            freetime_first = freetime_json['rows'][0]
+        except IndexError as e:
+            msg = "Нема вільного часу на дату '{}' для офісу '{}'".format(chdate, office_id)
+            logger.error(msg, exc_info=e)
+            raise e
+
         freetime_first_id = freetime_first['id']
         freetime_first_chtime = freetime_first['chtime']
         logger.debug(f"Вільний час: id - {freetime_first_id}, час - {freetime_first_chtime}")

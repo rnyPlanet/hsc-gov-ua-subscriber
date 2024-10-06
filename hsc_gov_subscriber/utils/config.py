@@ -83,7 +83,17 @@ class Config:
     QUESTION_ID = ConfigUnit(
         "application",
         "question_id",
-        description="ID послуги. (56 - практичний іспит (транспортний засіб навчального закладу), 49 - Перереєстрація транспортного засобу)",
+        description="ID послуги. (56 - практичний іспит (транспортний засіб навчального закладу))",
+    )
+    SUB_ID = ConfigUnit(
+        "application",
+        "sub_id",
+        description="ID запиту для практичний іспит (транспортний засіб навчального закладу)",
+    )
+    SCHOOL_VEHICLE_PRACTICAL_EXAM = ConfigUnit(
+        "application",
+        "school_vehicle_practical_exam",
+        description="Транспортний засіб навчального закладу на практичний іспит",
     )
     VIN = ConfigUnit(
         "application",
@@ -146,6 +156,8 @@ class ConfigValidation:
         cls._validate_email()
         cls._validate_office_id()
         cls._validate_question_id()
+        cls._validate_sub_id()
+        cls._validate_school_vehicle_practical_exam()
         cls._validate_vin()
 
         cls._validate_api_id()
@@ -168,6 +180,21 @@ class ConfigValidation:
         ConfigValidation._check_not_none(unit)
         if int(unit.value) not in (56, 49):
             ConfigValidation._raise_config_exception(unit, unit.description)
+
+    @staticmethod
+    def _validate_sub_id():
+        unit = Config.SUB_ID
+        if int(Config.QUESTION_ID.value) == 56:
+            ConfigValidation._check_not_none(unit)
+
+    @staticmethod
+    def _validate_school_vehicle_practical_exam():
+        unit = Config.SCHOOL_VEHICLE_PRACTICAL_EXAM
+        if int(Config.QUESTION_ID.value) == 56:
+            ConfigValidation._check_not_none(unit)
+            if bool(unit.value):
+                ConfigValidation._check_not_none(unit)
+                ConfigValidation._check_not_none(Config.SUB_ID)
 
     @staticmethod
     def _validate_vin():

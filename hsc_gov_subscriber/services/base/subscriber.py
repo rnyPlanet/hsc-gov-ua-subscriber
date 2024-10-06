@@ -28,6 +28,7 @@ class HscGovSubscriberAbs:
                     break
             except Exception as e:
                 logger.error(e)
+                raise e
 
     async def _subscribe(self, chdate):
         self._check_date(chdate)

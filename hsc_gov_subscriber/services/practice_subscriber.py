@@ -3,17 +3,14 @@ from hsc_gov_subscriber.utils.config import Config
 
 
 class PracticeSubscriber(HscGovSubscriberAbs):
-    QUESTION_ID = 56
-    SUB_ID = 13
-
     async def subscribe(self, text):
         await super().subscribe(text)
 
     def get_question_id(self):
-        return self.QUESTION_ID
+        return Config.QUESTION_ID.value
 
     def get_sub_id(self):
-        return self.SUB_ID
+        return Config.SUB_ID.value
 
     def get_reservecherga_data(self, question_id, first_freetime_id):
         return (
