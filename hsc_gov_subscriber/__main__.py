@@ -28,7 +28,7 @@ async def re_registration_new_talon_handler(event):
 
 services = {
     56: practice_new_talon_handler,
-    49: re_registration_new_talon_handler
+    # 49: re_registration_new_talon_handler
 }
 
 if __name__ == '__main__':
