@@ -176,10 +176,7 @@ class ConfigValidation:
 
     @staticmethod
     def _validate_question_id():
-        unit = Config.QUESTION_ID
-        ConfigValidation._check_not_none(unit)
-        if int(unit.value) not in (56, 49):
-            ConfigValidation._raise_config_exception(unit, unit.description)
+        ConfigValidation._check_not_none(Config.QUESTION_ID)
 
     @staticmethod
     def _validate_sub_id():

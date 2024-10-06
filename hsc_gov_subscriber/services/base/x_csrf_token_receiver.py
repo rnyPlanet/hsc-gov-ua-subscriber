@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 
 from hsc_gov_subscriber.utils.client import Client
+from hsc_gov_subscriber.utils.config import Config
 from hsc_gov_subscriber.utils.log import logger
 
 
@@ -11,7 +12,7 @@ class XCsrfTokenReceiver:
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
             'Accept-Language': 'en,uk;q=0.9,en-US;q=0.8,ru;q=0.7',
             'Connection': 'keep-alive',
-            'Referer': f'https://eq.hsc.gov.ua/site/step1?value={question_id}&subid={subid}',
+            'Referer': XCsrfTokenReceiver.define_referer(question_id, subid),
             'Sec-Fetch-Dest': 'document',
             'Sec-Fetch-Mode': 'navigate',
             'Sec-Fetch-Site': 'same-origin',
@@ -44,3 +45,10 @@ class XCsrfTokenReceiver:
     def validate_html(soup):
         if len(soup(text=lambda t: "Увійти за допомогою - ID.GOV.UA" in t.text)) != 0:
             raise Exception("Потрібно оновити файли cookie.")
+
+    @staticmethod
+    def define_referer(question_id, subid):
+        if Config.SCHOOL_VEHICLE_PRACTICAL_EXAM.value:
+            return f'https://eq.hsc.gov.ua/site/step1?value={question_id}&subid={subid}'
+        else:
+            return f'https://eq.hsc.gov.ua/site/step1?value={question_id}'
