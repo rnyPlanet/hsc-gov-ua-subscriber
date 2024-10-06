@@ -35,7 +35,7 @@ if __name__ == '__main__':
     ConfigValidation.validate()
 
     with TelegramClient(session=StringSession(), api_id=Config.API_ID.value, api_hash=Config.API_HASH.value) as client:
-        question_id = int(Config.QUESTION_ID.value)
-        client.add_event_handler(services[question_id])
+        # question_id = int(Config.QUESTION_ID.value)
+        client.add_event_handler(practice_new_talon_handler)
         logger.info("Бот запустився. Чекаємо нових повідомлень...")
         client.run_until_disconnected()
