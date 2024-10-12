@@ -11,7 +11,7 @@ from hsc_gov_subscriber.utils.log import logger
 @events.register(events.NewMessage(
     chats=6974528785,
     incoming=True,
-    func=lambda ev: "💼 На послугу: 🚗 Практичний іспит (транспортний засіб навчального закладу)" in ev.message.message)
+    func=lambda ev: "💼 На послугу: (🚗 )?Практичний іспит" in ev.message.message)
 )
 async def practice_new_talon_handler(event):
     await PracticeSubscriber().subscribe(event.message.text)
