@@ -1,5 +1,7 @@
 import json
+import random
 
+from hsc_gov_subscriber.services.base.exceptions.no_time_available_exception import NoTimeAvailableException
 from hsc_gov_subscriber.utils.client import Client
 from hsc_gov_subscriber.utils.log import logger
 
@@ -39,12 +41,13 @@ class FreeTimeReceiver:
         freetime_json = json.loads(response["body"])
         logger.debug(f"freetime_json {freetime_json}")
 
-        try:
-            freetime_first = freetime_json['rows'][0]
-        except IndexError as e:
+        rows = freetime_json['rows']
+        if len(rows) == 0:
             msg = "Нема вільного часу на дату '{}' для офісу '{}'".format(chdate, office_id)
-            logger.error(msg, exc_info=e)
-            raise e
+            logger.error(msg)
+            raise NoTimeAvailableException(msg)
+        else:
+            freetime_first = random.choice(rows)
 
         freetime_first_id = freetime_first['id']
         freetime_first_chtime = freetime_first['chtime']

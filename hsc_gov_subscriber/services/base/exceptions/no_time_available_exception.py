@@ -1,0 +1,2 @@
+class NoTimeAvailableException(Exception):
+    pass
