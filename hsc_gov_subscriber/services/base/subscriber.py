@@ -4,6 +4,7 @@ from datetime import datetime
 
 from bs4 import BeautifulSoup
 
+from hsc_gov_subscriber.services.base.exceptions.no_time_available_exception import NoTimeAvailableException
 from hsc_gov_subscriber.services.base.finisher import Finisher
 from hsc_gov_subscriber.services.base.freetime_receiver import FreeTimeReceiver
 from hsc_gov_subscriber.services.base.reservecherga_redirect_receiver import ReservechergaRedirectReceiver
@@ -26,7 +27,7 @@ class HscGovSubscriberAbs:
                 if subscribe_successfully:
                     logger.info(f"Успішно записались на дату {chdate}")
                     break
-            except Exception as e:
+            except NoTimeAvailableException as e:
                 logger.error(e)
                 raise e
 
